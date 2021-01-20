@@ -5,7 +5,6 @@
 
 namespace QMPersist;
 
-require __DIR__ . '/inc/qm-overrides/class-qm_collectors.php';
 require __DIR__ . '/inc/storage/class-filestorage.php';
 require __DIR__ . '/inc/class-profile.php';
 require __DIR__ . '/inc/namespace.php';
