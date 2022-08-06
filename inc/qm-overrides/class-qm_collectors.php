@@ -1,5 +1,7 @@
 <?php
 
+if ( ! class_exists( 'QM_Collectors' ) ) {
+	
 class QM_Collectors implements IteratorAggregate {
 	private static $instance = null;
 
@@ -62,5 +64,7 @@ class QM_Collectors implements IteratorAggregate {
 
 		$this->processed = true;
 	}
+
+}
 
 }
