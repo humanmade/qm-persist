@@ -14,6 +14,8 @@ function bootstrap() {
 	add_filter( 'qm/collectors', __NAMESPACE__ . '\\register_collector' );
 	add_filter( 'qm/dispatchers', __NAMESPACE__ . '\\register_dispatcher', 100, 2 );
 	add_filter( 'qm/outputter/html', __NAMESPACE__ . '\\register_browse_output' );
+
+	add_filter( 'pre_update_option_active_plugins', __NAMESPACE__ . '\\init_before_query_monitor_plugin', 20 );
 }
 
 /**
@@ -113,4 +115,25 @@ function render_panel_only() {
 	echo '<body id="qmpersist">';
 
 	exit;
+}
+
+/**
+ * On every plugin activation, make sure QM Persist plugin will be initialized 
+ * before orignal Query Monitor plugin (priority 20)
+ *
+ * @param array $plugins
+ * @return array
+ */
+function init_before_query_monitor_plugin( $plugins ) {
+
+    if ( empty( $plugins ) ) {
+        return $plugins;
+    }
+
+    $f = preg_quote( basename( 'qm-persist/plugin.php' ) );
+    
+    return array_merge(
+        preg_grep( '/' . $f . '$/', $plugins ),
+        preg_grep( '/' . $f . '$/', $plugins, PREG_GREP_INVERT )
+    );
 }
